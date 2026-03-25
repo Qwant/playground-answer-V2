@@ -65,6 +65,13 @@ export function useChat(settings: Settings) {
       for await (const event of stream) {
         if (event.type === 'sources') {
           sources = event.sources;
+          // Store immediately so citations can be resolved during streaming
+          updateLast({ sources });
+        } else if (event.type === 'citation') {
+          for (const id of event.reference_ids) {
+            content += `[^cite:${id}]`;
+          }
+          updateLast({ content });
         } else if (event.type === 'assistant') {
           content += event.delta;
           updateLast({ content });

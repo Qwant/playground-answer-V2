@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import type { ChatMessage as ChatMessageType } from '../types';
+import type { Components } from 'react-markdown';
+import type { ChatMessage as ChatMessageType, AnswerV2Source } from '../types';
 import { SourcesList } from './SourcesList';
 import { RelatedQueries } from './RelatedQueries';
 import { SearchIcon, UserIcon } from './Icons';
@@ -12,8 +13,50 @@ interface Props {
   useMarkdown: boolean;
 }
 
+function getDomain(url: string) {
+  try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return url; }
+}
+
+function preprocessCitations(content: string): string {
+  return content.replace(/\[\^cite:(\d+)\]/g, (_, id) => {
+    return `[${parseInt(id, 10) + 1}](cite://${id})`;
+  });
+}
+
+function makeLinkComponent(sources: AnswerV2Source[]): Components['a'] {
+  return function CitationLink({ href, children, ...props }) {
+    if (href?.startsWith('cite://')) {
+      const id = href.slice(7);
+      const source = sources.find(s => s.id === id);
+      return (
+        <a
+          href={source?.url ?? '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="citation-btn"
+          title={source ? (source.title || getDomain(source.url)) : ''}
+        >
+          {children}
+        </a>
+      );
+    }
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+        {children}
+      </a>
+    );
+  };
+}
+
 export function ChatMessage({ message, isStreaming, onRelatedSelect, useMarkdown }: Props) {
   const isAssistant = message.role === 'assistant';
+  const sources = message.sources ?? [];
+
+  const components: Components = { a: makeLinkComponent(sources) };
+
+  const processedContent = useMarkdown
+    ? preprocessCitations(message.content)
+    : message.content;
 
   return (
     <div className={`message ${message.role}`}>
@@ -31,8 +74,8 @@ export function ChatMessage({ message, isStreaming, onRelatedSelect, useMarkdown
           ) : (
             <div className="msg-content">
               {useMarkdown ? (
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {message.content}
+                <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+                  {processedContent}
                 </ReactMarkdown>
               ) : (
                 <p>{message.content}</p>
@@ -40,8 +83,8 @@ export function ChatMessage({ message, isStreaming, onRelatedSelect, useMarkdown
             </div>
           )}
 
-          {isAssistant && message.sources && message.sources.length > 0 && (
-            <SourcesList sources={message.sources} />
+          {isAssistant && !message.isStreaming && sources.length > 0 && (
+            <SourcesList sources={sources} />
           )}
 
           {isAssistant && message.relatedQueries && message.relatedQueries.length > 0 && (

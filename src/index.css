@@ -316,10 +316,40 @@ body {
 
 .msg-content a {
   color: var(--brand);
-  text-decoration: none;
-  border-bottom: 1px solid var(--brand-glow);
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition: text-decoration-color .2s;
 }
-.msg-content a:hover { border-color: var(--brand); }
+.msg-content a:hover { text-decoration-color: var(--brand); }
+
+.citation-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: 5px;
+  background: var(--source-bg);
+  color: var(--source-color);
+  border: 1px solid var(--source-border);
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-decoration: none !important;
+  position: relative;
+  top: -0.35em;
+  margin: 0 1px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background .2s, color .2s, border-color .2s, transform .15s;
+}
+.citation-btn:hover {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+  transform: scale(1.1) translateY(-1px);
+}
 
 .msg-content table {
   width: 100%;
