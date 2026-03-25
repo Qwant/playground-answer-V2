@@ -323,7 +323,7 @@ body {
 }
 .msg-content a:hover { text-decoration-color: var(--brand); }
 
-.citation-btn {
+.msg-content .citation-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -336,7 +336,8 @@ body {
   border: 1px solid var(--source-border);
   font-size: 0.6rem;
   font-weight: 700;
-  text-decoration: none !important;
+  text-decoration: none;
+  text-decoration-color: transparent;
   position: relative;
   top: -0.35em;
   margin: 0 1px;
@@ -344,7 +345,7 @@ body {
   white-space: nowrap;
   transition: background .2s, color .2s, border-color .2s, transform .15s;
 }
-.citation-btn:hover {
+.msg-content .citation-btn:hover {
   background: var(--brand);
   color: #fff;
   border-color: var(--brand);
@@ -629,20 +630,46 @@ body {
   padding: 48px 24px;
 }
 
-.empty-icon { color: var(--empty-icon-color); margin-bottom: 4px; }
+.empty-icon {
+  position: relative;
+  color: var(--brand);
+  margin-bottom: 0.25rem;
+  filter: drop-shadow(0 0 8px var(--brand-glow));
+}
+
+.empty-icon::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--brand-glow) 0%, transparent 70%);
+  animation: glow-pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
 
 .empty-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: -.02em;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--brand) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  line-height: 1.2;
 }
 
 .empty-subtitle {
-  font-size: 14px;
-  color: var(--text-secondary);
-  max-width: 380px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  max-width: 400px;
   line-height: 1.6;
+  margin: 0;
 }
 
 .empty-subtitle strong { color: var(--brand); font-weight: 600; }
