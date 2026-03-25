@@ -65,7 +65,6 @@ export function useChat(settings: Settings) {
       for await (const event of stream) {
         if (event.type === 'sources') {
           sources = event.sources;
-          updateLast({ sources });
         } else if (event.type === 'assistant') {
           content += event.delta;
           updateLast({ content });
@@ -84,7 +83,7 @@ export function useChat(settings: Settings) {
         }
       }
 
-      updateLast({ isStreaming: false });
+      updateLast({ isStreaming: false, sources });
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
         updateLast({ isStreaming: false });

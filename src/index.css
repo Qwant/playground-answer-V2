@@ -515,7 +515,7 @@ body {
 
 .input-form {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .input-form textarea {
