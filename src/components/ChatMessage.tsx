@@ -74,7 +74,11 @@ export function ChatMessage({ message, isStreaming, onRelatedSelect, useMarkdown
           ) : (
             <div className="msg-content">
               {useMarkdown ? (
-                <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={components}
+                  urlTransform={(url) => url}
+                >
                   {processedContent}
                 </ReactMarkdown>
               ) : (
