@@ -28,7 +28,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          VITE_BASE: /answer-v2-playground/
+          VITE_BASE: /playground-answer-V2/
 
       - uses: actions/upload-pages-artifact@v3
         with:

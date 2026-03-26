@@ -26,8 +26,8 @@ Built with **React + Vite + TypeScript**, powered by the official `@qwant/answer
 ### Local development
 
 ```bash
-git clone https://github.com/Qwant/answer-v2-playground.git
-cd answer-v2-playground
+git clone https://github.com/Qwant/playground-answer-V2.git
+cd playground-answer-V2
 npm install
 npm run dev
 ```
@@ -51,12 +51,12 @@ The included [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) auto
 2. Go to **Settings → Pages** and set the source to **GitHub Actions**
 3. Push to `main` — the workflow handles the rest
 
-The `VITE_BASE` env var in the workflow is set to `/answer-v2-playground/`. Update it to match your repository name if you fork under a different name.
+The `VITE_BASE` env var in the workflow is set to `/playground-answer-V2/`. Update it to match your repository name if you fork under a different name.
 
 ### Manual deploy
 
 ```bash
-VITE_BASE=/your-repo-name/ npm run build
+VITE_BASE=/playground-answer-V2/ npm run build
 # Upload dist/ to any static host
 ```
 

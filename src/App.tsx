@@ -8,7 +8,7 @@ import { SettingsDrawer } from './components/SettingsDrawer';
 import { EmptyState } from './components/EmptyState';
 import { SearchIcon, SettingsIcon, AutoThemeIcon, SunIcon, MoonIcon, GitHubIcon } from './components/Icons';
 
-const GITHUB_URL = 'https://github.com/Qwant/answer-v2-playground';
+const GITHUB_URL = 'https://github.com/Qwant/playground-answer-V2';
 
 export default function App() {
   const { settings, updateSettings, hasSources } = useSettings();
